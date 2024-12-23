@@ -1,8 +1,8 @@
 <?php 
-$servername = "localhost"; 
-$username = "id21931865_rishi"; 
-$password = "Rishi@2006"; 
-$dbname = "id21931865_harpcloud"; 
+$servername = "localhost";
+$username = "nucfrkvh_CloudEncryp";
+$password = "tjyrXKCafhPA8pEc4bsL";
+$dbname = "nucfrkvh_CloudEncryp";
  
 $conn = new mysqli($servername, $username, $password, $dbname); 
  
