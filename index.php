@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
-$username = "id21931865_rishi";
-$password = "Rishi@2006";
-$dbname = "id21931865_harpcloud";
+$username = "nucfrkvh_CloudEncryp";
+$password = "tjyrXKCafhPA8pEc4bsL";
+$dbname = "nucfrkvh_CloudEncryp";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -13,6 +13,8 @@ if ($conn->connect_error) {
 
 // Start a PHP session
 session_start();
+
+$message = ""; // Initialize message
 
 // Process login form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -30,13 +32,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_email'] = $username;
 
             // Redirect to upload.php on successful login
-            header("Location: upload.php");
+            header("Location: jnc.php");
             exit(); // Ensure that no further code is executed after the redirect
         } else {
-            echo "Invalid password";
+            $message = "Invalid password";
         }
     } else {
-        echo "User not found";
+        $message = "User not found";
     }
 }
 
@@ -44,137 +46,192 @@ $conn->close();
 ?>
 
 <html>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+        html {
+            height: 100%;
+            background: linear-gradient(135deg, #141E30, #243B55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto', sans-serif;
+            overflow: hidden;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s ease, background 0.5s ease;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-container:hover {
+            transform: translateY(-10px);
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .message {
+            color: #FF4B4B;
+            font-size: 1em;
+            text-align: center;
+            margin-top: 10px;
+            padding: 5px 10px;
+            background: rgba(255, 75, 75, 0.2);
+            border-radius: 5px;
+            display: none; /* Hidden by default */
+        }
+
+        .message.visible {
+            display: block;
+        }
+
+        form {
+            display: grid;
+            gap: 15px;
+            color: #FFFFFF;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-align: center;
+            color: cyan;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1.1em;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #243B55;
+            color: #FFFFFF;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            background: #364C62;
+            box-shadow: 0 0 10px cyan;
+        }
+
+        button {
+            background: linear-gradient(135deg, #06B6D4, #00D4FF);
+            color: #000000;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #00D4FF, #06B6D4);
+            transform: scale(1.05);
+            box-shadow: 0px 5px 15px rgba(0, 212, 255, 0.5);
+        }
+
+        p {
+            text-align: center;
+        }
+
+        a {
+            color: #00D4FF;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            color: cyan;
+            text-decoration: underline;
+        }
+        .background-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background-animation span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 212, 255, 0.5);
+            animation: animate 25s linear infinite;
+            bottom: -150px;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1200px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .background-animation span:nth-child(odd) {
+            animation-duration: 20s;
+            animation-delay: -5s;
+        }
+
+        .background-animation span:nth-child(even) {
+            animation-duration: 30s;
+            animation-delay: -10s;
+        }
+    </style>
+</head>
 <body>
-   <div class="colored-section"></div>
+<div class="background-animation">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
     <div class="login-container">
-       <form action="index.php" method="post">
-         <h1>HARP</h1> 
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" required>
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" required>
-    <button type="submit" name="login">Login</button>
-         <p>Don't have an account? <a href="register.php">         
-               Register Now</a></p>
-</form>
- 
-   </div>
+        <!-- Display message if exists -->
+        <?php if (!empty($message)): ?>
+            <div class="message visible"><?php echo $message; ?></div>
+        <?php endif; ?>
+        <form action="index.php" method="post">
+            <h1>Cenryp</h1>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit" name="login">Login</button>
+            <p>Don't have an account? <a href="register.php">Register Now</a></p>
+        </form>
+    </div>
 </body>
 </html>
-<style>
-html {
-  height: 100%;
-  background: #042035;
-  display: flex;
-  display: grid;
-  place-items: center;
-}
-
-body {
-  margin: 0px;
-  padding: 0px;
-}
-
-.login-container {
-  text-align: center;
-  background: #000000;
-  margin: 230px;
-  margin-top:240px;
-  z-index: 2; 
-  display flex;
-  justify-content: space-around;
-  margin-left: 230px;
-}
-
-
-
-form {
-  width: 550px;
-  height: 420px;
-  display: grid;
-  justify-items: center;
-  align-content: center;
-  grid-template: 'auto';
-  background: linear-gradient(77deg, cyan, cyan, transparent 20%) 0 bottom/ 20% 50% no-repeat,
-    linear-gradient(-77deg, cyan, cyan, transparent 20%) right bottom/ 20% 50% no-repeat,
-    rgba(0, 0, 0, 0);
-  transition: 1s;
-  border-radius: 10px;
-  box-shadow: 0px 3px 15px cyan, 0px 3px 5px cyan;
-}
-
-form:hover {
-  background: linear-gradient(77deg, cyan, #6649df, transparent 70%) 0 bottom/ 100% 100% no-repeat,
-    linear-gradient(-77deg, cyan, #6649df, transparent 70%) right bottom/ 100% 100% no-repeat,
-    rgba(0, 0, 0, 0);
-}
-
-h1 {
-  margin-top: 5px;
-  font-size: 40px;
-  color: #000000;
-  font-family: 'regular';
-}
-
-label {
-  display: inline-block;
-  font-size: 22px;
-  margin: 11px;
-  margin-right: 20px;
-  text-align: left;
-  color: #000000;
-  font-family: 'regular';
-}
-
-input {
-  width: 50%;
-  padding: 6px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-}
-
-button {
-  display: inline-block;
-  font-size: 18px;
-  padding: 8px 10px;
-  background: #FFFFFF;
-  border: none;
-  outline: none;
-  margin-top: 25px;
-  margin-bottom: 15px;
-  text-shadow: 0px 1px 3px white;
-  color: #0f1923;
-  border-radius: 3px/4px;
-  font-family: 'regular';
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #8A2BE2;
-}
-
-p {
-  margin-top: 10px;
-  margin-bottom: -1px;
-  color: #000000;
-  font-size: 15px;
-  font-family: 'regular', sans-serif;
-}
-
-a {
-  color: #000000;
-  text-decoration: underline;
-  font-size: 20px;
-  font-family: 'regular';
-}
-
-a:hover {
-  color: #000000;
-  font-family: 'regular';
-
-}
-
-
-
-</style>
