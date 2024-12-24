@@ -1,5 +1,5 @@
 CREATE TABLE `user_files` (
-  `id` int(11) PRIMARY KEY,
+  `file_id` int(11) PRIMARY KEY,
   `user_email` varchar(255) NOT NULL,
   `file_name` varchar(255) NOT NULL,
   `file_data` longblob NOT NULL,
