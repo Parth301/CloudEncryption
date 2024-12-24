@@ -44,6 +44,7 @@ $conn->close();
 
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
@@ -196,6 +197,34 @@ $conn->close();
             animation-duration: 30s;
             animation-delay: -10s;
         }
+        @media only screen and (max-width: 1024px){
+        html, body {
+            overflow: hidden; /* Prevent scrolling */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            max-height: 90%;
+            opacity: 99%;
+        }
+        body::-webkit-scrollbar {
+             display: none;
+            }
+        .login-container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s ease, background 0.5s ease;
+            width: 350px;
+        } 
+        form {
+    display: grid;
+    gap: 15px;
+    color: #FFFFFF;
+    width: 323px;
+    height: 398px;
+}
 
     </style>
 </head>
