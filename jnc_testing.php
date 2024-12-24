@@ -2,9 +2,9 @@
 ob_start();
 
 $servername = "localhost";
-$username = "id21931865_rishi";
-$password = "Rishi@2006";
-$dbname = "id21931865_harpcloud";
+$username = "nucfrkvh_CloudEncryp";
+$password = "tjyrXKCafhPA8pEc4bsL";
+$dbname = "nucfrkvh_CloudEncryp";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -86,51 +86,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['encrypted_file']) && 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
+    body {
             display: flex;
             justify-content: space-around;
             align-items: center;
             height: 100vh;
             margin: auto;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: Arial, sans-serif;
             overflow: auto;
-            background: linear-gradient(315deg, rgba(0,0,94,1) 3%, rgba(0,132,206,1) 38%, rgba(0,238,226,1) 68%, rgba(0,25,25,1) 98%);
-             animation: gradient 15s ease infinite;
-             background-size: 400% 400%;
-             background-attachment: fixed;
+            background: linear-gradient(135deg, #141E30, #243B55);
         }
-
+        
         .encryption-container{
-            width: 500px;
-            height: 490px;
+            width: 23%;
+            height: 410px;
             padding: 25px;
-            margin-left: 500px;
-            margin-top: 35px;
-            background-color: #353935;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin: 100px;
+            margin: 20px 50px;
+            background-color: #1f2a35;
+            border: 1px solid #0074D9;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
         .decryption-container {
-            width: 500px;
-            height: 490px;
-            margin-top: 60px;
+            width: 23%;
+            height: 410px;
             padding: 25px;
-            background-color: #353935;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin: 100px;
-        }
- #photo-overlay {
-             position: absolute;
-    top: 507px;
-    left: 73%;
-    width: 15%;
-    height: 26%;
-    z-index: 1;
-    opacity: 1;
+            margin: 20px 50px;
+            background-color: #1f2a35;
+            border: 1px solid #0074D9;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 h3{ 
     top: 388px;
@@ -153,22 +138,59 @@ h3{
 
         label {
             display: block;
-            font-size: 0.9rem;
+            font-size: 18px;
             margin-bottom: 5px;
             color: #fff;
         }
-
-        input {
-            width: 100%;
-        
-           color: white;
-
+        input[type="file"],
+        input[type="submit"] {
             padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            box-sizing: border-box;
-            margin-bottom: 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
         }
+
+        input[type="file"] {
+            background-color: #0288D1;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="submit"] {
+            background-color: #39CCCC;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0074D9;
+        }
+
+        input[type="text"] {
+  width: 100%;
+  padding: 12px 16px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
+  outline: none;
+}
+
+input[type="text"]::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
 
         button,
         .download-button {
@@ -211,6 +233,8 @@ h3{
             text-align: center;
             text-decoration: none;
             display: block;
+            pointer: absolute;
+            z-index: 5;
         }
 
         .download-button:hover {
@@ -218,231 +242,100 @@ h3{
         }
         
         .navigate-btn {
-            background-color: #28a745;
-            width: 100px;
-            margin-top: -630px;
-            margin-left: 150px;
-            margin-right: 40px;
-            height: 60px;
-            color: #fff;
-            white-space: nowrap;
-            border: none;
-            padding: 8px; 
-            border-radius: 12px;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #FF851B;
+            position: absolute;
+            width: 144px;
+            right: 10px;
+            top: 65px;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            text-align: center;
             cursor: pointer;
-            font-size: 1rem; 
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
 
         .navigate-btn:hover {
-            background-color: #218838;
-        }
-
-        .logout-form {
-            margin-top: -610px;
-            margin-left: auto;
-            margin-right: 150px; 
+            background-color: #FF4136;
+            transform: scale(1.05);
         }
 
         .logout-form input[type="submit"] {
-            width: auto;
-            background-color: #dc3545;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 15px;
+            background-color: #FF4136;
+            color: white;
+            border-radius: 5px;
             border: none;
-            border-radius: 3px;
-            color: #fff;
-            font-size: 0.9rem;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         .logout-form input[type="submit"]:hover {
-            background-color: #c82333;
+            background-color: #FF851B;
+        }
+        .background-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background-animation span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 212, 255, 0.5);
+            animation: animate 25s linear infinite;
+            bottom: -150px;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1200px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .background-animation span:nth-child(odd) {
+            animation-duration: 20s;
+            animation-delay: -5s;
+        }
+
+        .background-animation span:nth-child(even) {
+            animation-duration: 30s;
+            animation-delay: -10s;
         }
         
-        /* Media Queries */
-        @media only screen and (min-width: 768px) {
-            .encryption-container,
-            .decryption-container {
-                width: 45%; 
-                margin: 20px 10px;
-            }
-        }
-
-        @media only screen and (min-width: 1200px) {
-            .encryption-container,
-            .decryption-container {
-                width: 30%;
-                margin: 20px 15px;
-            }
-        }
-    
-        @keyframes gradient {
-    0% {
-        background-position: 0% 0%;
-    }
-    50% {
-        background-position: 100% 100%;
-    }
-    100% {
-        background-position: 0% 0%;
-    }
-}
-
-infinite;
-    transform: translate3d(0, 0, 0);
-    opacity: 0.8;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-}
-
-#file
-{
-    color: white;
-}
-@import "compass/css3";
-
-* { box-sizing: border-box; }
-html, body { 
-  margin: 0; padding: 0; 
-  position: relative; 
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
-}
-.page {
-    height: 100%;
-    -moz-box-align: center;
-    -webkit-box-pack: center;
-    position: absolute;
-    top: 378px;
-    /* -webkit-justify-content: center; */
-    justify-content: center;
-    -moz-box-pack: center;
-    -ms-flex-pack: center;
-    right: 275px;
-}
-
-.folder {
-  background-color: sandybrown;
-  position: relative;
-  width: 104px;
-  height: 72px;
-  display: block;
-    top: -59px;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-  border-bottom-left-radius: 8px;
-}
-  .folder-tab {
-    position: absolute;
-    height: 10px;
-    left: 0;
-    bottom: 100%;
-    display: block;
-    width: 40%;
-    border-top-left-radius: 8px;
-    background-color: inherit;
-
-    &:after {
-      content: '';
-      position: absolute;
-      display: block;
-      top: 0;
-      left: calc(100% - 10px);
-      border-bottom: 10px solid #2196f3;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-    }
-  }
-
-  .folder-icn {
-    padding-top: 12px;
-    width: 100%;
-    height: 100%;
-    display: block;
-    margin-top: 82px;
-  }
-  .downloading {
-    width: 30px;
-    height: 32px;
-    margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-  }
-    .custom-arrow {
-      width: 14px;
-      height: 14px;
-      position: absolute;
-      top: 0;
-      left: 50%;
-      margin-left: -7px;
-      background-color: #fff;
-      
-      -webkit-animation-name: downloading;
-      -webkit-animation-duration: 1.5s;
-      -webkit-animation-iteration-count: infinite;
-      animation-name: downloading;
-      animation-duration: 1.5s;
-      animation-iteration-count: infinite;
-      
-      &:after {
-        content: ''; position: absolute; display: block;
-        top: 100%;
-        left: -9px;
-        border-top: 15px solid #fff;
-        border-left: 16px solid transparent;
-        border-right: 16px solid transparent;
-      }
-    }
-  .bar {
-    width: 30px;
-    height: 4px;
-    background-color: #fff;
-    margin: 0 auto;
-  }
-
-@-webkit-keyframes downloading {
-  0% {
-    top: 0;
-    opacity: 1;
-  }
-  50% {
-    top: 110%;
-    opacity: 0;
-  }
-  52% {
-    top: -110%;
-    opacity: 0;
-  } 
-  100% {
-    top: 0;
-    opacity: 1;
-  }
-}
-@keyframes downloading {
-  0% {
-    top: 0;
-    opacity: 1;
-  }
-  50% {
-    top: 110%;
-    opacity: 0;
-  }
-  52% {
-    top: -110%;
-    opacity: 0;
-  } 
-  100% {
-    top: 0;
-    opacity: 1;
-  }
-}
-
-
-     
     </style>
 </head>
 
 <body>
+<div class="background-animation">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 
 
     <div class="encryption-container">
@@ -478,7 +371,7 @@ html, body {
         </form>
     </div>
 
-    <button class="navigate-btn" onclick="window.location.href='upload.php'"> My Files </button>
+    <button class="navigate-btn" onclick="window.location.href='jnc.php'"> My Files </button>
 
     <form class="logout-form" action="logout.php" method="post">
         <input type="submit" value="Logout">
@@ -512,21 +405,6 @@ html, body {
             }, 7000);
         }
     </script>
- <h3>Secure files </h3>
-    
-
-<div class="page">
-  
-  <div class="folder">
-    <span class="folder-tab"></span>
-    <div class="folder-icn">
-      <div class="downloading">
-        <span class="custom-arrow"></span>
-      </div>
-      <div class="bar"></div>
-    </div>
-  </div>
-
 
 </body>
 
