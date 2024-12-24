@@ -15,22 +15,30 @@ $userEmail = $_SESSION['user_email'];
 if(isset($_GET['file'])) {
     $fileName = $_GET['file'];
 
-    // Retrieve encrypted file content from the database
+    // Retrieve encrypted file content and file extension from the database
     $sql = "SELECT file_data, encryption_key, iv FROM user_files WHERE user_email='$userEmail' AND file_name='$fileName'";
     $result = $conn->query($sql);
 
     if($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $encryptedContent = $row['file_data'];
+        $fileDataWithExtension = $row['file_data'];
         $key = $row['encryption_key'];
         $iv = $row['iv'];
+
+        // Split the file data and extension (separated by semicolon)
+        list($encryptedContent, $fileExtension) = explode(';', $fileDataWithExtension);
 
         // Decrypt the file content
         $decryptedContent = openssl_decrypt($encryptedContent, 'aes-256-cbc', $key, 0, $iv);
 
+        if ($decryptedContent === false) {
+            echo "Error decrypting file content.";
+            exit();
+        }
+
         // Set appropriate headers for file download
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        header('Content-Disposition: attachment; filename="' . $fileName . '.' . $fileExtension . '"');
 
         // Output the decrypted content to the browser
         echo $decryptedContent;
