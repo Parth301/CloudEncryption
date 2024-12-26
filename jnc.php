@@ -96,10 +96,10 @@ if (isset($_POST['deleteFile'])) {
         $deleteResult = $stmt->execute(); 
  
         if ($deleteResult) { 
-            echo "<div style='position: fixed; bottom: 20px; left: 32px; background-color: #28a745; color: #fff; 
+            echo "<div class='message-del' style='position: fixed; bottom: 20px; left: 32px; background-color: #28a745; color: #fff; 
 padding: 10px 20px; border-radius: 5px;'>" . "File '" . $deleteFileName . "' deleted successfully." . "</div>"; 
         } else { 
-            echo "<div style='position: fixed; bottom: 20px; left: 20px; background-color: #28a745; color: #fff; 
+            echo "<div class='message-err' style='position: fixed; bottom: 20px; left: 20px; background-color: #28a745; color: #fff; 
 padding: 10px 20px; border-radius: 5px;'>" . "Error deleting file: " . $stmt->error; 
         } 
  
@@ -114,7 +114,7 @@ $filesSql = "SELECT file_name, file_id FROM user_files WHERE user_email='$userEm
 $filesResult = $conn->query($filesSql); 
  
 if ($filesResult) { 
-    echo "<div class='upload-container'>"; 
+    echo "<div class='file-container'>"; 
     echo "<h2>Uploaded Files</h2>"; 
     if ($filesResult->num_rows > 0) { 
         echo "<ul>"; 
@@ -145,7 +145,7 @@ $conn->close();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>File Upload</title>
     <style>
         body {
@@ -161,6 +161,15 @@ $conn->close();
         }
 
         .upload-container {
+            width: 29%;
+            margin: 20px 50px;
+            padding: 25px;
+            background-color: #1f2a35;
+            border: 1px solid #0074D9;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .file-container {
             width: 29%;
             margin: 20px 50px;
             padding: 25px;
@@ -349,6 +358,73 @@ $conn->close();
             50% {
                 transform: translateY(-15px);
             }
+        }
+        @media only screen and (max-width: 1024px){
+        
+        .logout-form input[type="submit"] {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 15px;
+            background-color: #FF4136;
+            color: white;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .navigate-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #FF851B;
+            position: absolute;
+            top: 75px;
+            right: 0px;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .upload-container {
+            position : absolute;
+            top : 140px; 
+            width: 81%;
+            margin: 20px 50px;
+            padding: 25px;
+            background-color: #1f2a35;
+            border: 1px solid #0074D9;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .file-container {
+            width: 81%;
+            position: absolute;
+            top: 470px;
+            margin: 20px 50px;
+            padding: 25px;
+            background-color: #1f2a35;
+            border: 1px solid #0074D9;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .message-visible{
+        position: absolute;
+        font-size: 21px;
+        top: 18px;
+        left: 18px;
+        max-width: 71%;
+        }
+        .message-del , .message-err{
+        position: absolute;
+        top: 440px;
+        font-size: 16px;
+        width: 71%;
+        height: 40px;
+        }
+
         }
     </style>
 </head>
