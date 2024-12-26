@@ -82,9 +82,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['encrypted_file']) && 
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <style>
     body {
             display: flex;
@@ -318,6 +317,32 @@ input[type="text"]::placeholder {
         .background-animation span:nth-child(even) {
             animation-duration: 30s;
             animation-delay: -10s;
+        }
+        @media only screen and (max-width: 1024px){
+        .encryption-container{
+        position: absolute;
+            top: 140px;
+            width: 81%;
+            height: 410px;
+            padding: 25px;
+            margin: 20px 50px;
+            background-color: #1f2a35;
+            border: 1px solid #0074D9;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .decryption-container {
+            position: absolute;
+            top: 610px;
+            width: 81%;
+            height: 410px;
+            padding: 25px;
+            margin: 20px 50px;
+            background-color: #1f2a35;
+            border: 1px solid #0074D9;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
         }
         
     </style>
