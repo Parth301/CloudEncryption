@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloud Encryption - Secure Your Digital Future</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Courier New', monospace;
+      background: #0a0a0a;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      color: #00ff00;
+    }
+
+    /* Matrix-style background */
+    .matrix-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: radial-gradient(circle at 50% 50%, #001100 0%, #000000 100%);
+    }
+
+    .matrix-rain {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .matrix-column {
+      position: fixed;
+      top: -100%;
+      font-size: 14px;
+      line-height: 18px;
+      color: #00ff00;
+      text-shadow: 0 0 5px #00ff00;
+      animation: matrixFall linear infinite;
+      font-family: 'Courier New', monospace;
+      opacity: 0.7;
+    }
+
+    @keyframes matrixFall {
+      0% {
+        top: -100%;
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.7;
+      }
+      90% {
+        opacity: 0.7;
+      }
+      100% {
+        top: 100vh;
+        opacity: 0;
+      }
+    }
+
+    /* Grid overlay */
+    .grid-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -1;
+      animation: gridPulse 4s ease-in-out infinite;
+    }
+
+    @keyframes gridPulse {
+      0%, 100% {
+        opacity: 0.5;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* Main Container */
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Terminal-style Card */
+    .terminal-card {
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid #00ff00;
+      border-radius: 0;
+      padding: 3rem 2.5rem;
+      max-width: 700px;
+      width: 100%;
+      box-shadow: 
+        0 0 20px rgba(0, 255, 0, 0.3),
+        inset 0 0 20px rgba(0, 255, 0, 0.05);
+      animation: terminalBoot 2s ease-out;
+      position: relative;
+      font-family: 'Courier New', monospace;
+    }
+
+    .terminal-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #00ff00, #008800, #00ff00);
+      z-index: -1;
+      border-radius: 0;
+      animation: borderGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes borderGlow {
+      from {
+        box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+      }
+      to {
+        box-shadow: 0 0 25px rgba(0, 255, 0, 0.8);
+      }
+    }
+
+    @keyframes terminalBoot {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Terminal Header */
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #00ff00;
+    }
+
+    .terminal-title {
+      color: #00ff00;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .terminal-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .control-btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ff0000;
+    }
+
+    .control-btn:nth-child(2) { background: #ffff00; }
+    .control-btn:nth-child(3) { background: #00ff00; }
+
+    /* ASCII Art Logo */
+    .ascii-logo {
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem;
+      line-height: 1;
+      color: #00ff00;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 10px #00ff00;
+      animation: logoFlicker 5s infinite;
+    }
+
+    @keyframes logoFlicker {
+      0%, 98%, 100% {
+        opacity: 1;
+        text-shadow: 0 0 10px #00ff00;
+      }
+      99% {
+        opacity: 0.8;
+        text-shadow: 0 0 5px #00ff00;
+      }
+    }
+
+    /* Typography */
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #00ff00;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-shadow: 0 0 20px #00ff00;
+      animation: titleGlitch 8s infinite;
+      font-family: 'Courier New', monospace;
+    }
+
+    @keyframes titleGlitch {
+      0%, 90%, 100% {
+        transform: translateX(0);
+      }
+      91% {
+        transform: translateX(-2px);
+      }
+      92% {
+        transform: translateX(2px);
+      }
+      93% {
+        transform: translateX(-1px);
+      }
+      94% {
+        transform: translateX(1px);
+      }
+      95% {
+        transform: translateX(0);
+      }
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #008800;
+      margin-bottom: 2rem;
+      font-weight: normal;
+      line-height: 1.6;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Terminal Output */
+    .terminal-output {
+      text-align: left;
+      margin: 2rem 0;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 1.5rem;
+      border-left: 3px solid #00ff00;
+    }
+
+    .output-line {
+      color: #00ff00;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      animation: typewriter 3s steps(40) 1s both;
+    }
+
+    .output-line:nth-child(2) { animation-delay: 1.5s; }
+    .output-line:nth-child(3) { animation-delay: 2s; }
+
+    @keyframes typewriter {
+      from {
+        width: 0;
+        border-right: 2px solid #00ff00;
+      }
+      to {
+        width: 100%;
+        border-right: 2px solid transparent;
+      }
+    }
+
+    /* Feature Stats */
+    .feature-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .stat-item {
+      background: rgba(0, 255, 0, 0.05);
+      border: 1px solid #008800;
+      padding: 1rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.1), transparent);
+      animation: scanLine 2s infinite;
+      animation-delay: calc(var(--delay) * 0.5s);
+    }
+
+    .stat-item:nth-child(1) { --delay: 0; }
+    .stat-item:nth-child(2) { --delay: 1; }
+    .stat-item:nth-child(3) { --delay: 2; }
+
+    @keyframes scanLine {
+      0% {
+        left: -100%;
+      }
+      100% {
+        left: 100%;
+      }
+    }
+
+    .stat-number {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #00ff00;
+      display: block;
+      text-shadow: 0 0 10px #00ff00;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: #008800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 0.5rem;
+    }
+
+    /* CTA Section */
+    .cta-container {
+      margin-top: 2rem;
+    }
+
+    .cta-text {
+      color: #008800;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Cyberpunk Button */
+    .login-btn {
+      background: transparent;
+      border: 2px solid #00ff00;
+      color: #00ff00;
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-family: 'Courier New', monospace;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 0, 0.1) 50%, transparent 70%);
+      background-size: 200% 200%;
+      animation: buttonScan 3s infinite;
+    }
+
+    @keyframes buttonScan {
+      0%, 100% {
+        background-position: -200% 0;
+      }
+      50% {
+        background-position: 200% 0;
+      }
+    }
+
+    .login-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 255, 0, 0.2);
+      transition: left 0.3s;
+      z-index: -1;
+    }
+
+    .login-btn:hover::before {
+      left: 0;
+    }
+
+    .login-btn:hover {
+      box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+      text-shadow: 0 0 10px #00ff00;
+      transform: translateY(-2px);
+    }
+
+    .login-btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-text {
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn-icon {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .login-btn:hover .btn-icon {
+      transform: translateX(5px);
+      text-shadow: 0 0 10px #00ff00;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .terminal-card {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .ascii-logo {
+        font-size: 0.6rem;
+      }
+
+      .feature-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Cursor blink */
+    .cursor {
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% {
+        opacity: 1;
+      }
+      51%, 100% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Matrix Background -->
+  <div class="matrix-bg"></div>
+  <div class="grid-overlay"></div>
+  <div class="matrix-rain" id="matrixRain"></div>
+
+  <div class="container">
+    <div class="terminal-card">
+      <!-- Terminal Header -->
+      <div class="terminal-header">
+        <div class="terminal-title">SECURE_TERMINAL_v2.1</div>
+        <div class="terminal-controls">
+          <div class="control-btn"></div>
+          <div class="control-btn"></div>
+          <div class="control-btn"></div>
+        </div>
+      </div>
+
+      <!-- ASCII Art Logo -->
+      <div class="ascii-logo">
+╔═══════════════════════════════════════════════════════════╗
+║  ██████╗██╗      ██████╗ ██╗   ██╗██████╗                ║
+║ ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗               ║
+║ ██║     ██║     ██║   ██║██║   ██║██║  ██║               ║
+║ ██║     ██║     ██║   ██║██║   ██║██║  ██║               ║
+║ ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝               ║
+║  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝                ║
+║                                                           ║
+║ ███████╗███╗   ██╗ ██████╗██████╗ ██╗   ██╗██████╗ ████████╗
+║ ██╔════╝████╗  ██║██╔════╝██╔══██╗╚██╗ ██╔╝██╔══██╗╚══██╔══╝
+║ █████╗  ██╔██╗ ██║██║     ██████╔╝ ╚████╔╝ ██████╔╝   ██║   
+║ ██╔══╝  ██║╚██╗██║██║     ██╔══██╗  ╚██╔╝  ██╔═══╝    ██║   
+║ ███████╗██║ ╚████║╚██████╗██║  ██║   ██║   ██║        ██║   
+║ ╚══════╝╚═╝  ╚═══╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝        ╚═╝   
+╚═══════════════════════════════════════════════════════════╝
+      </div>
+
+      <h1>CLOUD ENCRYPT</h1>
+      <p class="subtitle">Military-grade quantum encryption protocols</p>
+
+      <!-- Terminal Output -->
+      <div class="terminal-output">
+        <div class="output-line">[SYSTEM] Initializing quantum encryption matrix...</div>
+        <div class="output-line">[SECURE] AES-256 protocols activated...</div>
+        <div class="output-line">[READY] Secure portal online <span class="cursor">|</span></div>
+      </div>
+
+      <!-- Feature Stats -->
+      <div class="feature-stats">
+        <div class="stat-item">
+          <span class="stat-number">256-BIT</span>
+          <span class="stat-label">Encryption</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">99.9%</span>
+          <span class="stat-label">Uptime</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">0-KNOWLEDGE</span>
+          <span class="stat-label">Architecture</span>
+        </div>
+      </div>
+
+      <div class="cta-container">
+        <p class="cta-text">Access Granted - Initialize Secure Session</p>
+        <button class="login-btn" onclick="window.location.href='api/index.php'">
+          <span class="btn-text">ENTER SYSTEM</span>
+          <span class="btn-icon">></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Matrix Rain Effect
+    function createMatrixRain() {
+      const matrixRain = document.getElementById('matrixRain');
+      const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+      
+      for (let i = 0; i < 50; i++) {
+        const column = document.createElement('div');
+        column.className = 'matrix-column';
+        column.style.left = Math.random() * 100 + '%';
+        column.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        column.style.animationDelay = Math.random() * 2 + 's';
+        
+        let text = '';
+        for (let j = 0; j < 20; j++) {
+          text += chars.charAt(Math.floor(Math.random() * chars.length)) + '<br>';
+        }
+        column.innerHTML = text;
+        
+        matrixRain.appendChild(column);
+      }
+    }
+
+    // Initialize matrix rain
+    createMatrixRain();
+
+    // Regenerate matrix periodically
+    setInterval(() => {
+      const columns = document.querySelectorAll('.matrix-column');
+      columns.forEach(column => {
+        const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+        let text = '';
+        for (let j = 0; j < 20; j++) {
+          text += chars.charAt(Math.floor(Math.random() * chars.length)) + '<br>';
+        }
+        column.innerHTML = text;
+      });
+    }, 5000);
+
+    // Button click effect
+    document.querySelector('.login-btn').addEventListener('click', function(e) {
+      // Add glitch effect
+      this.style.animation = 'none';
+      setTimeout(() => {
+        this.style.animation = 'buttonScan 3s infinite';
+      }, 100);
+      
+      // Brief system flash
+      document.body.style.background = '#003300';
+      setTimeout(() => {
+        document.body.style.background = '#0a0a0a';
+      }, 50);
+    });
+
+    // Random text glitch effect
+    function glitchText() {
+      const title = document.querySelector('h1');
+      const originalText = 'CLOUD ENCRYPT';
+      const glitchChars = '!@#$%^&*()_+{}|:<>?';
+      
+      let glitchedText = '';
+      for (let i = 0; i < originalText.length; i++) {
+        if (Math.random() < 0.1) {
+          glitchedText += glitchChars.charAt(Math.floor(Math.random() * glitchChars.length));
+        } else {
+          glitchedText += originalText.charAt(i);
+        }
+      }
+      
+      title.textContent = glitchedText;
+      setTimeout(() => {
+        title.textContent = originalText;
+      }, 100);
+    }
+
+    // Trigger glitch effect occasionally
+    setInterval(() => {
+      if (Math.random() < 0.1) {
+        glitchText();
+      }
+    }, 3000);
+
+    // Terminal cursor blink
+    setInterval(() => {
+      const cursor = document.querySelector('.cursor');
+      if (cursor) {
+        cursor.textContent = cursor.textContent === '|' ? '_' : '|';
+      }
+    }, 500);
+  </script>
+</body>
+</html>
