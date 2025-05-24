@@ -18,419 +18,202 @@ function encrypt($data, $key, $originalExtension) {
     $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));
     $encrypted = openssl_encrypt($data, $cipher, $key, 0, $iv);
     $encoded = base64_encode($iv . $encrypted);
-
-    // Save the original file extension in the encrypted data
     return $originalExtension . ':' . $encoded;
 }
 
 // Function to decrypt data
 function decrypt($data, $key) {
-    // Extract the original file extension
     list($originalExtension, $encoded) = explode(':', $data, 2);
-    
     $cipher = "aes-256-cbc";
     $decoded = base64_decode($encoded);
     $iv = substr($decoded, 0, openssl_cipher_iv_length($cipher));
     $decrypted = openssl_decrypt(substr($decoded, openssl_cipher_iv_length($cipher)), $cipher, $key, 0, $iv);
-
     return [$originalExtension, $decrypted];
 }
 
-$encryption_result = '';
-$decryption_result = '';
-
-// Check if the form is submitted for encryption
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['file']) && isset($_POST['encrypt_key'])) {
-    // Process file upload
+// Handle Encryption
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['file'], $_POST['encrypt_key'])) {
     $file = $_FILES['file']['tmp_name'];
     $key = $_POST['encrypt_key'];
-
     $content = file_get_contents($file);
     $originalExtension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
     $encrypted_data = encrypt($content, $key, $originalExtension);
 
-    // Save the encrypted data to a file using binary mode
-    $filename = "encrypted_file.enc";
-    file_put_contents($filename, $encrypted_data, LOCK_EX | FILE_BINARY);
-
-    $encryption_result = "File successfully encrypted";
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="encrypted_file.enc"');
+    echo $encrypted_data;
+    exit;
 }
 
-// Check if the form is submitted for decryption
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['encrypted_file']) && isset($_POST['decrypt_key'])) {
-    // Process file upload
+// Handle Decryption
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['encrypted_file'], $_POST['decrypt_key'])) {
     $file = $_FILES['encrypted_file']['tmp_name'];
     $key = $_POST['decrypt_key'];
-
     $content = file_get_contents($file);
-    
-    // Check if the file is actually encrypted
+
     if (strpos($content, ':') === false) {
-        // Display error toast if the file is not encrypted
-        $decryption_result = "Error: Please select a valid encrypted file.";
-    } else {
-        list($originalExtension, $decrypted_data) = decrypt($content, $key);
-
-        // Save the decrypted data to a file with the original file extension
-        $decrypted_filename = "decrypted_file.$originalExtension";
-        file_put_contents($decrypted_filename, $decrypted_data, LOCK_EX | FILE_BINARY);
-
-        $decryption_result = "File successfully decrypted";
+        echo "<script>alert('Error: Please upload a valid encrypted file.'); window.location.href='';</script>";
+        exit;
     }
+
+    list($originalExtension, $decrypted_data) = decrypt($content, $key);
+
+    header('Content-Type: application/octet-stream');
+    header("Content-Disposition: attachment; filename=\"decrypted_file.$originalExtension\"");
+    echo $decrypted_data;
+    exit;
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypt / Decrypt File</title>
     <style>
-    body {
+        body {
             display: flex;
-            justify-content: space-around;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
-            margin: auto;
             font-family: Arial, sans-serif;
-            overflow: auto;
             background: linear-gradient(135deg, #141E30, #243B55);
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
         }
-        
-        .encryption-container{
-            width: 23%;
-            height: 410px;
-            padding: 25px;
-            margin: 20px 50px;
-            background-color: #1f2a35;
-            border: 1px solid #0074D9;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-        .decryption-container {
-            width: 23%;
-            height: 410px;
-            padding: 25px;
-            margin: 20px 50px;
-            background-color: #1f2a35;
-            border: 1px solid #0074D9;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-h3{ 
-    top: 388px;
-    right: 83px;
-    position: absolute;
-    font-size: 32px;
-  }
 
         h1 {
             text-align: center;
-            font-size: 2rem;
-            margin-bottom: 10px;
-            margin-top:45px;
-            color: #fff;
+            margin-top: 20px;
         }
 
-        form {
-            margin-top: 50px;
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .box {
+            background-color: #1f2a35;
+            border: 1px solid #0074D9;
+            border-radius: 8px;
+            padding: 25px;
+            width: 300px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         label {
             display: block;
-            font-size: 18px;
-            margin-bottom: 5px;
-            color: #fff;
+            margin-bottom: 8px;
         }
+
         input[type="file"],
-        input[type="submit"] {
-            padding: 8px;
-            margin: 10px 0;
-            border-radius: 5px;
+        input[type="text"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
             border: none;
+            border-radius: 5px;
+            font-size: 16px;
         }
 
         input[type="file"] {
-            background-color: #0288D1;
+            background-color: #0074D9;
             color: white;
             cursor: pointer;
         }
 
-        input[type="submit"] {
+        input[type="text"] {
+            background-color: #f9f9f9;
+            color: #000;
+        }
+
+        button {
             background-color: #39CCCC;
             color: white;
-            font-size: 1rem;
+            font-weight: bold;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
 
-        input[type="submit"]:hover {
+        button:hover {
             background-color: #0074D9;
         }
 
-        input[type="text"] {
-  width: 100%;
-  padding: 12px 16px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  font-size: 16px;
-  background-color: #f9f9f9;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-input[type="text"]:focus {
-  border-color: #4a90e2;
-  box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
-  outline: none;
-}
-
-input[type="text"]::placeholder {
-  color: #aaa;
-  font-style: italic;
-}
-
-
-        button,
-        .download-button {
-            width: 100%;
-            padding: 8px;
-            border: none;
-            border-radius: 3px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            margin-top:5px;
-        }
-
-        button {
-            background-color: #4a86e8;
-            color: #fff;
-        }
-
-        button:hover {
-            background-color: #3569d0;
-        }
-
-        a {
-            display: block;
-            text-align: center;
-            font-size: 0.8rem;
-            color: white;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .download-button {
-            background-color: #4a86e8;
-            width: 95.5%
-            color: white;
-            margin-top: 10px;
-            text-align: center;
-            text-decoration: none;
-            display: block;
-            pointer: absolute;
-            z-index: 5;
-        }
-
-        .download-button:hover {
-            background-color: #3569d0;
-        }
-        
         .navigate-btn {
-            display: inline-block;
+            position: absolute;
+            top: 20px;
+            right: 160px;
             padding: 10px 20px;
             background-color: #FF851B;
-            position: absolute;
-            width: 144px;
-            right: 10px;
-            top: 65px;
             color: white;
+            border: none;
             border-radius: 5px;
-            text-decoration: none;
-            font-size: 1.1rem;
-            text-align: center;
+            font-size: 1rem;
             cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-
-        .navigate-btn:hover {
-            background-color: #FF4136;
-            transform: scale(1.05);
         }
 
         .logout-form input[type="submit"] {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 10px 15px;
+            top: 20px;
+            right: 20px;
             background-color: #FF4136;
             color: white;
-            border-radius: 5px;
             border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
         }
 
         .logout-form input[type="submit"]:hover {
             background-color: #FF851B;
         }
-        .background-animation {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
 
-        .background-animation span {
-            position: absolute;
-            display: block;
-            width: 20px;
-            height: 20px;
-            background: rgba(0, 212, 255, 0.5);
-            animation: animate 25s linear infinite;
-            bottom: -150px;
-        }
-
-        @keyframes animate {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-1200px) rotate(720deg);
-                opacity: 0;
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
             }
         }
-
-        .background-animation span:nth-child(odd) {
-            animation-duration: 20s;
-            animation-delay: -5s;
-        }
-
-        .background-animation span:nth-child(even) {
-            animation-duration: 30s;
-            animation-delay: -10s;
-        }
-        @media only screen and (max-width: 1024px){
-        .encryption-container{
-        position: absolute;
-            top: 140px;
-            width: 81%;
-            height: 410px;
-            padding: 25px;
-            margin: 20px 50px;
-            background-color: #1f2a35;
-            border: 1px solid #0074D9;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-        .decryption-container {
-            position: absolute;
-            top: 610px;
-            width: 81%;
-            height: 410px;
-            padding: 25px;
-            margin: 20px 50px;
-            background-color: #1f2a35;
-            border: 1px solid #0074D9;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-        }
-        
     </style>
 </head>
-
 <body>
-<div class="background-animation">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+
+    <h1>File Encryption & Decryption</h1>
+
+    <div class="container">
+        <div class="box">
+            <h2>Encrypt File</h2>
+            <form method="post" enctype="multipart/form-data">
+                <label for="file">Select file to encrypt:</label>
+                <input type="file" name="file" required>
+                <label for="encrypt_key">Encryption key:</label>
+                <input type="text" name="encrypt_key" required>
+                <button type="submit">Encrypt & Download</button>
+            </form>
+        </div>
+
+        <div class="box">
+            <h2>Decrypt File</h2>
+            <form method="post" enctype="multipart/form-data">
+                <label for="encrypted_file">Select encrypted file:</label>
+                <input type="file" name="encrypted_file" required>
+                <label for="decrypt_key">Decryption key:</label>
+                <input type="text" name="decrypt_key" required>
+                <button type="submit">Decrypt & Download</button>
+            </form>
+        </div>
     </div>
 
+    <button class="navigate-btn" onclick="window.location.href='jnc.php'">My Files</button>
 
-    <div class="encryption-container">
-        <h1>File Encryption</h1>
-        <form method="post" enctype="multipart/form-data">
-            <label for="file">Choose a file for encryption:</label>
-            <input type="file" name="file" id="file" required>
-            <label for="encrypt_key">Enter encryption key:</label>
-            <input type="text" name="encrypt_key" id="encrypt_key" required>
-            <button type="submit" onclick="showToast('File successfully encrypted')">Encrypt File</button>
-            <?php
-            if (!empty($encryption_result)) {
-                echo "<a class='download-button' href='$filename' download>Download Encrypted File</a>";
-            }
-            ?>
-        </form>
-    </div>
-
-    <div class="decryption-container">
-        <h1>File Decryption</h1>
-        <form method="post" enctype="multipart/form-data">
-            <label for="encrypted_file">Choose an encrypted file for decryption:</label>
-            <input type="file" name="encrypted_file" id="encrypted_file" required>
-            <label for="decrypt_key">Enter decryption key:</label>
-            <input type="text" name="decrypt_key" id="decrypt_key" required>
-            <button type="submit" onclick="showToast('File successfully decrypted')">Decrypt File</button>
-            <?php
-            if (!empty($decryption_result)) {
-                echo "<h2></h2>";
-                echo "<a class='download-button' href='$decrypted_filename' download>Download Decrypted File</a>";
-            }
-            ?>
-        </form>
-    </div>
-
-    <button class="navigate-btn" onclick="window.location.href='jnc.php'"> My Files </button>
-
-    <form class="logout-form" action="logout.php" method="post">
+    <form class="logout-form" method="post" action="logout.php">
         <input type="submit" value="Logout">
     </form>
 
-    <!-- Toast Message Style -->
-    <style>
-        .toast-message {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #333;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            opacity: 0.9;
-            z-index: 9999;
-        }
-    </style>
-
-    <script>
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.classList.add('toast-message');
-            toast.textContent = message;
-            document.body.appendChild(toast);
-
-            setTimeout(() => {
-                toast.remove();
-            }, 7000);
-        }
-    </script>
-
 </body>
-
 </html>
