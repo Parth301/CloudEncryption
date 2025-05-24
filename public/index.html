@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cloud Encryption - The future of secure data storage. Experience terminal-grade digital protection with military-grade quantum encryption protocols.">
   <title>Cloud Encryption - Secure Your Digital Future</title>
   <style>
     * {
@@ -463,6 +464,43 @@
         opacity: 0;
       }
     }
+
+    /* Accessibility - Respect user motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      
+      .matrix-column {
+        animation: none !important;
+      }
+      
+      .grid-overlay {
+        animation: none !important;
+      }
+    }
+
+    /* Improved contrast for accessibility */
+    @media (prefers-contrast: high) {
+      .login-btn {
+        border-width: 3px;
+      }
+      
+      .terminal-card {
+        border-width: 3px;
+      }
+      
+      .output-line,
+      h1,
+      .stat-number {
+        text-shadow: 0 0 15px #00ff00;
+      }
+    }
   </style>
 </head>
 <body>
@@ -484,7 +522,7 @@
       </div>
 
       <!-- ASCII Art Logo -->
-      <div class="ascii-logo">
+      <pre class="ascii-logo" role="img" aria-label="Cloud Encrypt ASCII Logo">
 ╔═══════════════════════════════════════════════════════════╗
 ║  ██████╗██╗      ██████╗ ██╗   ██╗██████╗                ║
 ║ ██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗               ║
@@ -500,7 +538,7 @@
 ║ ███████╗██║ ╚████║╚██████╗██║  ██║   ██║   ██║        ██║   
 ║ ╚══════╝╚═╝  ╚═══╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝        ╚═╝   
 ╚═══════════════════════════════════════════════════════════╝
-      </div>
+      </pre>
 
       <h1>CLOUD ENCRYPT</h1>
       <p class="subtitle">Military-grade quantum encryption protocols</p>
@@ -530,33 +568,43 @@
 
       <div class="cta-container">
         <p class="cta-text">Access Granted - Initialize Secure Session</p>
-        <button class="login-btn" onclick="window.location.href='api/index.php'">
+        <a href="api/index.php" class="login-btn" role="button" aria-label="Access secure portal">
           <span class="btn-text">ENTER SYSTEM</span>
-          <span class="btn-icon">></span>
-        </button>
+          <span class="btn-icon" aria-hidden="true">⮞</span>
+        </a>
       </div>
     </div>
   </div>
 
   <script>
-    // Matrix Rain Effect
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // Enhanced Matrix Rain Generator
     function createMatrixRain() {
       const matrixRain = document.getElementById('matrixRain');
-      const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+      const columns = Math.floor(window.innerWidth / 20);
+      const characters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
       
-      for (let i = 0; i < 50; i++) {
+      // Clear existing columns
+      matrixRain.innerHTML = '';
+      
+      for (let i = 0; i < columns; i++) {
         const column = document.createElement('div');
         column.className = 'matrix-column';
-        column.style.left = Math.random() * 100 + '%';
-        column.style.animationDuration = (Math.random() * 3 + 2) + 's';
-        column.style.animationDelay = Math.random() * 2 + 's';
+        column.style.left = `${i * 20}px`;
         
-        let text = '';
-        for (let j = 0; j < 20; j++) {
-          text += chars.charAt(Math.floor(Math.random() * chars.length)) + '<br>';
+        if (!prefersReducedMotion) {
+          column.style.animationDuration = `${Math.random() * 3 + 3}s`;
+          column.style.animationDelay = `${Math.random() * 2}s`;
         }
-        column.innerHTML = text;
         
+        // Generate random characters for this column
+        const columnText = Array.from({ length: 30 }, () => 
+          characters[Math.floor(Math.random() * characters.length)]
+        ).join('<br>');
+        
+        column.innerHTML = columnText;
         matrixRain.appendChild(column);
       }
     }
@@ -564,36 +612,25 @@
     // Initialize matrix rain
     createMatrixRain();
 
-    // Regenerate matrix periodically
-    setInterval(() => {
-      const columns = document.querySelectorAll('.matrix-column');
-      columns.forEach(column => {
-        const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-        let text = '';
-        for (let j = 0; j < 20; j++) {
-          text += chars.charAt(Math.floor(Math.random() * chars.length)) + '<br>';
-        }
-        column.innerHTML = text;
-      });
-    }, 5000);
+    // Regenerate matrix periodically (only if motion is allowed)
+    if (!prefersReducedMotion) {
+      setInterval(() => {
+        const columns = document.querySelectorAll('.matrix-column');
+        const characters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+        
+        columns.forEach(column => {
+          const columnText = Array.from({ length: 30 }, () => 
+            characters[Math.floor(Math.random() * characters.length)]
+          ).join('<br>');
+          column.innerHTML = columnText;
+        });
+      }, 5000);
+    }
 
-    // Button click effect
-    document.querySelector('.login-btn').addEventListener('click', function(e) {
-      // Add glitch effect
-      this.style.animation = 'none';
-      setTimeout(() => {
-        this.style.animation = 'buttonScan 3s infinite';
-      }, 100);
-      
-      // Brief system flash
-      document.body.style.background = '#003300';
-      setTimeout(() => {
-        document.body.style.background = '#0a0a0a';
-      }, 50);
-    });
-
-    // Random text glitch effect
+    // Enhanced glitch text effect with accessibility check
     function glitchText() {
+      if (prefersReducedMotion) return;
+      
       const title = document.querySelector('h1');
       const originalText = 'CLOUD ENCRYPT';
       const glitchChars = '!@#$%^&*()_+{}|:<>?';
@@ -613,12 +650,58 @@
       }, 100);
     }
 
-    // Trigger glitch effect occasionally
-    setInterval(() => {
-      if (Math.random() < 0.1) {
-        glitchText();
+    // Boot sequence animation
+    function bootSequence() {
+      const outputLines = document.querySelectorAll('.output-line');
+      const bootMessages = [
+        '[SYSTEM] Quantum encryption matrix initialized...',
+        '[SECURE] AES-256 protocols activated...',
+        '[NETWORK] Establishing secure tunnel...',
+        '[AUTH] Biometric scanners online...',
+        '[READY] Secure portal accessible'
+      ];
+      
+      outputLines.forEach((line, index) => {
+        if (!prefersReducedMotion) {
+          setTimeout(() => {
+            line.textContent = bootMessages[index] || line.textContent;
+            line.style.opacity = '1';
+          }, index * 800);
+        } else {
+          line.textContent = bootMessages[index] || line.textContent;
+          line.style.opacity = '1';
+        }
+      });
+    }
+
+    // Initialize boot sequence
+    bootSequence();
+
+    // Button interaction with accessibility considerations
+    document.querySelector('.login-btn').addEventListener('click', function(e) {
+      if (!prefersReducedMotion) {
+        // Add glitch effect
+        this.style.animation = 'none';
+        setTimeout(() => {
+          this.style.animation = 'buttonScan 3s infinite';
+        }, 100);
+        
+        // Brief system flash
+        document.body.style.background = '#003300';
+        setTimeout(() => {
+          document.body.style.background = '#0a0a0a';
+        }, 50);
       }
-    }, 3000);
+    });
+
+    // Trigger glitch effect occasionally (only if motion allowed)
+    if (!prefersReducedMotion) {
+      setInterval(() => {
+        if (Math.random() < 0.1) {
+          glitchText();
+        }
+      }, 3000);
+    }
 
     // Terminal cursor blink
     setInterval(() => {
@@ -627,6 +710,37 @@
         cursor.textContent = cursor.textContent === '|' ? '_' : '|';
       }
     }, 500);
+
+    // Responsive matrix rain on window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        createMatrixRain();
+      }, 100);
+    });
+
+    // Performance optimization: Pause animations when tab is not visible
+    document.addEventListener('visibilitychange', () => {
+      const matrixColumns = document.querySelectorAll('.matrix-column');
+      
+      if (document.hidden) {
+        matrixColumns.forEach(column => {
+          column.style.animationPlayState = 'paused';
+        });
+      } else {
+        matrixColumns.forEach(column => {
+          column.style.animationPlayState = 'running';
+        });
+      }
+    });
+
+    // Keyboard navigation enhancement
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && e.target.classList.contains('login-btn')) {
+        e.target.click();
+      }
+    });
   </script>
 </body>
 </html>
